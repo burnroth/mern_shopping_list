@@ -12,7 +12,7 @@ import ItemModal from './components/itemModal'
 function App() {
   return (
     <Provider store={store}>
-      <Helmet title="Marcus learnig the MERN stack">
+      <Helmet title="Marcus learning the MERN stack">
 
       </Helmet>
       <div className="App">

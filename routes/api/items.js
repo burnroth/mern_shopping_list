@@ -34,4 +34,13 @@ router.delete("/:id", (req, res) => {
     .catch(err => res.status(404).json({ success: false }));
 });
 
+// @route         PUT api/items/:id
+// @deescription  Edit an item
+// @access        Public
+router.put("/:id", (req, res) => {
+  console.log(req.body.body + req.params.id)
+Item.findById(req.params.id)
+.then(item => item.update({name:req.body.body}))
+});
+
 module.exports = router;

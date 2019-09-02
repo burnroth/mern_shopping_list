@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { Container, ListGroup, ListGroupItem, Button, Input } from "reactstrap";
 import { connect } from "react-redux";
 import { getItems, deleteItem } from "../actions/itemActions";
 import PropTypes from "prop-types";
+import EditItemModal from './EditItemModal'
 
 class ShoppingList extends Component {
+  state = {
+    showEditModal:false,
+  }
   componentDidMount() {
     this.props.getItems();
   }
@@ -14,15 +17,27 @@ class ShoppingList extends Component {
     this.props.deleteItem(id);
   }
 
+  showEditModal() {
+    this.setState({
+      showEditModal: !this.state.showEditModal
+    })
+  }
+
   render() {
     const { items } = this.props.item;
     return (
       <Container>
         <ListGroup>
-          <TransitionGroup className="shopping-list">
             {items.map(({ _id, name }) => (
-              <CSSTransition key={_id} classNames="fade">
                 <ListGroupItem>
+                  <Button
+                  className="edit-btn"
+                  color="secondary"
+                  size="small"
+                  onClick={this.showEditModal.bind(this)}
+                  >
+                  &#9998;
+                  </Button>
                   <Button
                     className="remove-btn"
                     color="danger"
@@ -32,10 +47,10 @@ class ShoppingList extends Component {
                     &times;
                   </Button>
                   {name}
+                  {this.state.showEditModal ? <EditItemModal id={_id} name={name}/> : null}
                 </ListGroupItem>
-              </CSSTransition>
             ))}
-          </TransitionGroup>
+        
         </ListGroup>
       </Container>
     );
