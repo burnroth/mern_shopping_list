@@ -26,7 +26,6 @@ class ItemModal extends Component {
   };
 
   onChange = e => {
-    console.log(e.target)
     this.setState({
       [e.target.name]: e.target.value
     });

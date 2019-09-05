@@ -38,10 +38,17 @@ router.delete("/:id", (req, res) => {
 // @route         PUT api/items/:id
 // @deescription  Edit an item
 // @access        Public
+
+// FIX THIS
+// Use instead: https://mongoosejs.com/docs/models.html#updating
+
 router.put("/:id", (req, res) => {
-  console.log(req.body.body + req.params.id)
-Item.findById(req.params.id)
-.then(item => item.update({name:req.body.body}))
+  Item.findById(req.params.id)
+    .then(item =>
+      item.update({ name: req.body.body.name, price: req.body.body.price })
+    )
+    .then(() => res.json({ success: true }))
+    .catch(err => res.status(404).json({ success: false }));
 });
 
 module.exports = router;

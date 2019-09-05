@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
 const items = require('./routes/api/items');
+const alba = require('./routes/api/alba');
 
 
 
@@ -19,6 +20,8 @@ mongoose
 // End Mongoose
 
 app.use("/api/items", items)
+app.use("/api/alba", alba)
+
 
 if( process.env.NODE_ENV === "production" ) {
   app.use(express.static('client/build'));

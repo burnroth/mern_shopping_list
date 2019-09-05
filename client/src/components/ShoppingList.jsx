@@ -1,14 +1,33 @@
 import React, { Component } from "react";
-import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
+import {
+  Container,
+  ListGroup,
+  ListGroupItem,
+  Form,
+  Input,
+  Button
+} from "reactstrap";
 import { connect } from "react-redux";
-import { getItems, deleteItem } from "../actions/itemActions";
+import { getItems, deleteItem, editItem } from "../actions/itemActions";
 import PropTypes from "prop-types";
-import EditItemModal from './EditItemModal'
 
 class ShoppingList extends Component {
-  state = {
-    showEditModal:false,
-  }
+ 
+    state = {
+      showInputField: false,
+      itemState: {
+        id: "",
+        name: "",
+        price: ""
+      },
+      editedItemState: {
+        id: "",
+        name: "",
+        price: ""
+      }
+    };
+  
+
   componentDidMount() {
     this.props.getItems();
   }
@@ -17,10 +36,42 @@ class ShoppingList extends Component {
     this.props.deleteItem(id);
   }
 
-  showEditModal() {
+  showInputField(id, name, price) {
     this.setState({
-      showEditModal: !this.state.showEditModal
+      itemState: {
+        id: id,
+        name: name,
+        price: price
+      }
+    });
+  }
+
+  handleInputChange = e => {
+    console.log(e.target)
+    this.setState({
+    editedItemState: {
+      ...this.state.editedItemState,
+        [e.target.name]: e.target.value
+      }
     })
+  }
+
+  handleEditSubmit(id, e) {
+    e.persist();
+    const editItem = {
+      id: id,
+      name: this.state.editedItemState.name,
+      price: this.state.editedItemState.price
+    };
+
+    console.log(e);
+    this.props.editItem(editItem);
+
+    this.setState({
+      itemState: {}
+    });
+
+    e.preventDefault();
   }
 
   render() {
@@ -28,30 +79,50 @@ class ShoppingList extends Component {
     return (
       <Container>
         <ListGroup>
-            {items.map(({ _id, name, price }) => (
-                <ListGroupItem key={_id} >
-                  <Button
+          {items.map(({ _id, name, price }) => {
+            return (
+              <ListGroupItem key={_id}>
+                <Button
+                  name={name}
+                  value={_id}
+                  style={{ marginRight: 8 }}
                   className="edit-btn"
                   color="secondary"
                   size="small"
-                  onClick={this.showEditModal.bind(this)}
-                  >
+                  onClick={this.showInputField.bind(this, _id, name, price)}
+                >
                   &#9998;
-                  </Button>
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="small"
-                    onClick={this.onDeleteClick.bind(this, _id)}
-                  >
-                    &times;
-                  </Button>
-                  {name}
-                  {price}
-                  {this.state.showEditModal ? <EditItemModal id={_id} name={name}/> : null}
-                </ListGroupItem>
-            ))}
-        
+                </Button>
+                <Button
+                  className="remove-btn"
+                  color="danger"
+                  size="small"
+                  onClick={this.onDeleteClick.bind(this, _id)}
+                >
+                  &times;
+                </Button>
+                <p>{name}</p>
+                <p>{price} kr </p>
+                {this.state.itemState.id === _id ? (
+                  <Form onChange={this.handleInputChange.bind(this)} onSubmit={this.handleEditSubmit.bind(this, _id)}>
+                    <Input
+                      
+                      name="name"
+                      type="text"
+                      placeholder="Ändra namn"
+                    />
+                    <Input
+                      
+                      name="price"
+                      type="text"
+                      placeholder="Ändra pris"
+                    />
+                    <Input type="submit" />
+                  </Form>
+                ) : null}
+              </ListGroupItem>
+            );
+          })}
         </ListGroup>
       </Container>
     );
@@ -69,5 +140,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getItems, deleteItem }
+  { getItems, deleteItem, editItem }
 )(ShoppingList);

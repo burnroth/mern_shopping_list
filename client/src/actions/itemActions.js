@@ -22,7 +22,9 @@ export const addItem = item => dispatch => {
     dispatch({
       type: ADD_ITEM,
       payload: res.data
-    })
+    }, 
+    console.log("addItem :" +  res.data)
+    )
   );
 };
 
@@ -36,12 +38,20 @@ export const deleteItem = id => dispatch => {
 };
 
 export const editItem = req => dispatch => {
-  console.log(req);
-  axios.put(`/api/items/${req.id}`, {body: req.name }).then(res =>
-    dispatch({
-      type: EDIT_ITEM
+  console.log("req: " + req.name + "" + req.price);
+  axios
+    .put(`/api/items/${req.id}`, {
+      body: {
+        name: req.name,
+        price: req.price
+      }
     })
-  );
+    .then(res =>
+      dispatch({
+        type: EDIT_ITEM,
+        payload: res.data
+      }, console.log("editItem: "  + res.data))
+    );
 };
 
 export const setItemsLoading = () => {
