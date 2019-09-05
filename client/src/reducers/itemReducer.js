@@ -1,6 +1,4 @@
-import uuid from "uuid";
 import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, EDIT_ITEM, ITEMS_LOADING } from "../actions/types";
-import { STATES } from "mongoose";
 
 const initialState = {
   items: [],
@@ -28,7 +26,7 @@ export default function(state = initialState, action) {
         case ADD_ITEM:
           return {
             ...state,
-            items: [action.payload, ...state.items]
+            items: [...state.items, action.payload]
           }
         case ITEMS_LOADING:
           return {

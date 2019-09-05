@@ -15,7 +15,8 @@ import { addItem } from "../actions/itemActions";
 class ItemModal extends Component {
   state = {
     modal: false,
-    name: ""
+    name: "",
+    price: ""
   };
 
   toggle = () => {
@@ -25,6 +26,7 @@ class ItemModal extends Component {
   };
 
   onChange = e => {
+    console.log(e.target)
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -34,8 +36,14 @@ class ItemModal extends Component {
     e.preventDefault();
 
     const newItem = {
-      name: this.state.name
+      name: this.state.name,
+      price: this.state.price
     };
+
+    this.setState({
+      name: "",
+      price: ""
+    })
 
     // Add item via addItem action
     this.props.addItem(newItem);
@@ -59,7 +67,7 @@ class ItemModal extends Component {
         <Modal toggle={this.toggle} isOpen={this.state.modal}>
           <ModalHeader toggle={this.toggle}>Add to shopping list</ModalHeader>
           <ModalBody>
-            <Form onSubmit={this.onSubmit}>
+            <Form onChange={this.onChange} onSubmit={this.onSubmit}>
               <FormGroup>
                 <Label for="item">Item</Label>
                 <Input
@@ -67,11 +75,13 @@ class ItemModal extends Component {
                   name="name"
                   id="item"
                   placeholder="Lägg till varor"
-                  onChange={this.onChange}
                 />
+                <Input type="number" name="price" placeholder="Pris" />
                 <Button
                   color="dark"
                   style={{ marginTop: "2rem", display: "block" }}
+                  disabled={ this.state.name && this.state.price ? false : true}
+                  
                 >
                   Add Item
                 </Button>

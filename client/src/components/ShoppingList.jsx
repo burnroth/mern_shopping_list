@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, ListGroup, ListGroupItem, Button, Input } from "reactstrap";
+import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
 import { connect } from "react-redux";
 import { getItems, deleteItem } from "../actions/itemActions";
 import PropTypes from "prop-types";
@@ -28,8 +28,8 @@ class ShoppingList extends Component {
     return (
       <Container>
         <ListGroup>
-            {items.map(({ _id, name }) => (
-                <ListGroupItem>
+            {items.map(({ _id, name, price }) => (
+                <ListGroupItem key={_id} >
                   <Button
                   className="edit-btn"
                   color="secondary"
@@ -47,6 +47,7 @@ class ShoppingList extends Component {
                     &times;
                   </Button>
                   {name}
+                  {price}
                   {this.state.showEditModal ? <EditItemModal id={_id} name={name}/> : null}
                 </ListGroupItem>
             ))}
