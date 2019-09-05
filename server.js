@@ -22,7 +22,7 @@ mongoose
 app.use("/api/items", items)
 app.use("/api/alba", alba)
 
-
+console.log("object")
 if( process.env.NODE_ENV === "production" ) {
   app.use(express.static('client/build'));
   app.get('*', (req, res) => {
