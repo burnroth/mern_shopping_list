@@ -45,7 +45,9 @@ router.delete("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   Item.findById(req.params.id)
     .then(item =>
-      item.update({ name: req.body.body.name, price: req.body.body.price })
+      item.update({ 
+        name: req.body.body.name, 
+        price: req.body.body.price })
     )
     .then(() => res.json({ success: true }))
     .catch(err => res.status(404).json({ success: false }));
