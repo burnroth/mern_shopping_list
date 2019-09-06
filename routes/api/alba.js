@@ -8,10 +8,7 @@ router.post("/", (req, res) => {
   fetch(segment, {
     method: "POST",
     body: req.body
-  })
-    .then(() => res.json({ success: true }), res.setHeader('Content-Type', 'text/plain'))
-    .then(console.log(req.body))
-    .catch(err => res.json({ success: false }, console.log(err)));
+  }).then("body sent successfully").catch(err => {console.log(err)})
 });
 
 module.exports = router;
