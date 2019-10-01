@@ -8,7 +8,7 @@ router.post("/", (req, res) => {
     ...req.body
   })
   .then(function (response) {
-    console.log(response.statusText);
+    console.log(response);
   })
   .then(() => res.json({ success: true }))
   .catch(function (error) {
