@@ -10,7 +10,7 @@ import {
   Input
 } from "reactstrap";
 import { connect } from "react-redux";
-import { editItem } from "../actions/itemActions";
+import { editItem, getItems } from "../actions/itemActions";
 
 class EditItemModal extends Component {
   state = {
@@ -37,10 +37,16 @@ class EditItemModal extends Component {
       id: this.props.id,
       name: this.state.name
     };
-    // Add item via addItem action
+
     this.props.editItem(editItem);
     this.toggle();
+    
   };
+
+  componentWillUnmount() {
+    this.props.getItems();
+    console.log("Unmount")
+  }
 
   render() {
     return (
@@ -89,5 +95,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editItem }
+  { editItem, getItems }
 )(EditItemModal);

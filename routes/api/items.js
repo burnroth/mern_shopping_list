@@ -39,7 +39,7 @@ router.delete("/:id", (req, res) => {
 // @deescription  Edit an item
 // @access        Public
 
-// FIX THIS
+// TODO
 // Use instead: https://mongoosejs.com/docs/models.html#updating
 
 router.put("/:id", (req, res) => {
@@ -49,7 +49,7 @@ router.put("/:id", (req, res) => {
         name: req.body.body.name, 
         price: req.body.body.price })
     )
-    .then(() => res.json({ success: true }))
+    .then(item => res.json(item))
     .catch(err => res.status(404).json({ success: false }));
 });
 

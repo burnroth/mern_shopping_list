@@ -19,12 +19,18 @@ export default function(state = initialState, action) {
           items: state.items.filter(item => item._id !== action.payload)
         }
         case EDIT_ITEM:
-          
         return {
           ...state,
-          items: [...state.items, action.payload]
+          items: [...state.items.map(item => {
+            
+            if(item._id === action.payload._id) {
+                item._id = item._id
+                item.name = action.payload.name
+                item.price = action.payload.price
+            }
+            return item;
+          })]
         }
-        
         case ADD_ITEM:
           return {
             ...state,
