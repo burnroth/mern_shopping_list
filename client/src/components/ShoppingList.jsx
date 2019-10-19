@@ -48,13 +48,24 @@ class ShoppingList extends Component {
     });
   }
 
-  handleInputChange = e => {
+  handleFormChange = e => {
     this.setState({
       editedItemState: {
         ...this.state.editedItemState,
         [e.target.name]: e.target.value
       }
     });
+  };
+
+  handleInputChange = e => {
+
+     this.setState({
+       itemState: {
+         ...this.state.itemState,
+         [e.target.name]: e.target.value
+       }
+     });
+     
   };
 
   handleEditSubmit(id, e) {
@@ -107,17 +118,19 @@ class ShoppingList extends Component {
                     {this.state.itemState.id === _id &&
                     this.state.itemState.show ? (
                       <Form
-                        onChange={this.handleInputChange.bind(this)}
+                        onChange={this.handleFormChange.bind(this)}
                         onSubmit={this.handleEditSubmit.bind(this, _id)}
                       >
                         <Input
-                          value={name}
+                          value={this.state.itemState.name}
+                          onChange={this.handleInputChange.bind(this)}
                           name="name"
                           type="text"
                           placeholder="Ändra namn"
                         />
                         <Input
-                          value={price}
+                          value={this.state.itemState.price}
+                          onChange={this.handleInputChange.bind(this)}
                           name="price"
                           type="text"
                           placeholder="Ändra pris"
