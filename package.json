@@ -20,7 +20,7 @@
     "concurrently": "^4.1.2",
     "express": "^4.17.1",
     "mongoose": "^5.6.9",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "react-helmet": "^5.2.1"
   },
   "devDependencies": {
